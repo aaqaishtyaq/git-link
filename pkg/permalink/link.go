@@ -1,3 +1,18 @@
+/*
+Copyright © 2022 Aaqa Ishtyaq <aaqaishtyaq@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package permalink
 
 import (
@@ -7,8 +22,8 @@ import (
 	"github.com/aaqaishtyaq/git-link/pkg/git"
 )
 
+// Generate permalink URL
 func Generate(args []string) {
-
 	g, err := git.NewFileContext(args[0])
 	if err != nil {
 		log.Fatal(err)
@@ -29,8 +44,7 @@ func Generate(args []string) {
 	log.Default().Println(url)
 }
 
-//https://github.com/aaqaishtyaq/home_ops/blob/2fbc4821a35508b477bb6c2e5466ef56cdb3f95a/modules/default.nix#L2
-
+// GithubPermaLink Github permalink
 func GithubPermaLink(remote, commit, path string, start, end int) string {
 	url := fmt.Sprintf("%s/blob/%s/%s", remote, commit, path)
 

@@ -1,3 +1,18 @@
+/*
+Copyright © 2022 Aaqa Ishtyaq <aaqaishtyaq@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package git
 
 import (
@@ -14,6 +29,7 @@ const (
 	rangeSeperator    = ".."
 )
 
+// FileContext about the file for which generate URL
 type FileContext struct {
 	Filepath string
 	Start    int
@@ -57,6 +73,7 @@ func NewFileContext(pathContext string) (*FileContext, error) {
 	}, nil
 }
 
+// HeadCommitSha returns commit Sha for git HEAD
 func (f *FileContext) HeadCommitSha() (string, error) {
 	h, err := f.Repo.Head()
 	if err != nil {
@@ -67,6 +84,7 @@ func (f *FileContext) HeadCommitSha() (string, error) {
 	return hash, nil
 }
 
+// Remote returns git remote url
 func (f *FileContext) Remote() (string, error) {
 	r, err := f.Repo.Remote("origin")
 	if err != nil {
@@ -84,6 +102,7 @@ func (f *FileContext) Remote() (string, error) {
 	return remote, nil
 }
 
+// SSHToHTTPS converts Github SSH path to HTTPS
 func SSHToHTTPS(remote string) (string, error) {
 	// git@github.com:aaqaishtyaq/tools.git
 	split1 := strings.Split(remote, "git@")
