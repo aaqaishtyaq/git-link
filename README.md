@@ -5,8 +5,8 @@ Generate Permalink for Github without leaving the terminal.
 ## Usage
 
 ```console
-% git link cmd/root.go:1..5
-https://github.com/aaqaishtyaq/git-link/blob/c710261ce7bc4c96dd0365bf8d570ed0cc254c0c/cmd/root.go#L1-L5
+% git link cmd/root.go:1..15
+https://github.com/aaqaishtyaq/git-link/blob/71307f9fabfa31266c9945d696c3e21cd332b021/cmd/root.go#L1-L15
 ```
 
 ## Todo
