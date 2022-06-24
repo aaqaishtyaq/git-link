@@ -93,17 +93,14 @@ func (f *FileContext) Remote(remote string) (string, error) {
 
 	remoteURI := r.Config().URLs[0]
 	if strings.HasPrefix(remoteURI, "git@") {
-		remoteURI, err = SSHToHTTPS(remoteURI)
-		if err != nil {
-			return "", err
-		}
+		remoteURI = SSHToHTTPS(remoteURI)
 	}
 
 	return remoteURI, nil
 }
 
 // SSHToHTTPS converts Github SSH path to HTTPS
-func SSHToHTTPS(remote string) (string, error) {
+func SSHToHTTPS(remote string) string {
 	// git@github.com:aaqaishtyaq/tools.git
 	split1 := strings.Split(remote, "git@")
 
@@ -115,5 +112,5 @@ func SSHToHTTPS(remote string) (string, error) {
 
 	path := fmt.Sprintf("https://%s", strings.Join(sshSepArr, "/"))
 
-	return path, nil
+	return path
 }
