@@ -1,0 +1,30 @@
+# .goreleaser.yml
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+builds:
+  - id: "git-link"
+    goos:
+      - darwin
+      - linux
+    binary: "git-link"
+    ldflags:
+    - "-X github.com/aaqaishtyaq/git-link/pkg/version.Version={{.Version}}"
+    - "-X github.com/aaqaishtyaq/git-link/pkg/version.Commit={{.Commit}}"
+    - "-X github.com/aaqaishtyaq/git-link/pkg/version.Date={{.Date}}"
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
