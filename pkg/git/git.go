@@ -85,21 +85,21 @@ func (f *FileContext) HeadCommitSha() (string, error) {
 }
 
 // Remote returns git remote url
-func (f *FileContext) Remote() (string, error) {
-	r, err := f.Repo.Remote("origin")
+func (f *FileContext) Remote(remote string) (string, error) {
+	r, err := f.Repo.Remote(remote)
 	if err != nil {
 		return "", err
 	}
 
-	remote := r.Config().URLs[0]
-	if strings.HasPrefix(remote, "git@") {
-		remote, err = SSHToHTTPS(remote)
+	remoteURI := r.Config().URLs[0]
+	if strings.HasPrefix(remoteURI, "git@") {
+		remoteURI, err = SSHToHTTPS(remoteURI)
 		if err != nil {
 			return "", err
 		}
 	}
 
-	return remote, nil
+	return remoteURI, nil
 }
 
 // SSHToHTTPS converts Github SSH path to HTTPS

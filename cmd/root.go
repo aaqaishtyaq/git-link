@@ -16,17 +16,34 @@ limitations under the License.
 package cmd
 
 import (
+	"os"
+
+	"github.com/aaqaishtyaq/git-link/pkg/log"
 	"github.com/aaqaishtyaq/git-link/pkg/permalink"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+var (
+	verbosity, gitRemote string
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "git-link",
 	Short: "Generate permalink of a code line/snippet for Github",
-	Args:  cobra.ExactArgs(1),
+	Long: `Generate permalink of a code line/snippet for Github
+
+Usage:
+
+$ git link main.go:1..2
+
+	`,
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		permalink.Generate(args)
+		log := setupLogs(cmd)
+		permalink.Generate(args, gitRemote, log)
 	},
 }
 
@@ -37,5 +54,12 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&verbosity, "verbosity", "v", zapcore.WarnLevel.String(), "Log level (debug, info, warn, error, fatal, panic)")
+	rootCmd.PersistentFlags().StringVarP(&gitRemote, "remote", "r", "origin", "Git remote for which URL is to be generated")
+}
+
+func setupLogs(cmd *cobra.Command) *zap.SugaredLogger {
+	verbosity := cmd.Root().Flag("verbosity").Value.String()
+
+	return log.SetUpLogs(os.Stdout, verbosity)
 }

@@ -17,19 +17,19 @@ package permalink
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/aaqaishtyaq/git-link/pkg/git"
+	"go.uber.org/zap"
 )
 
 // Generate permalink URL
-func Generate(args []string) {
+func Generate(args []string, remote string, log *zap.SugaredLogger) {
 	g, err := git.NewFileContext(args[0])
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	r, err := g.Remote()
+	r, err := g.Remote(remote)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +41,7 @@ func Generate(args []string) {
 
 	url := GithubPermaLink(r, sha, g.Filepath, g.Start, g.End)
 
-	log.Default().Println(url)
+	log.Info(url)
 }
 
 // GithubPermaLink Github permalink
