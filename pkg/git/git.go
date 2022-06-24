@@ -60,8 +60,8 @@ func NewFileContext(pathContext string) (*FileContext, error) {
 				return &FileContext{}, err
 			}
 		} else if len(rangeSlice) == 2 {
-			start, err = strconv.Atoi(rangeSlice[0])
-			end, err = strconv.Atoi(rangeSlice[1])
+			start, _ = strconv.Atoi(rangeSlice[0])
+			end, _ = strconv.Atoi(rangeSlice[1])
 		}
 	}
 
@@ -80,8 +80,7 @@ func (f *FileContext) HeadCommitSha() (string, error) {
 		return "", err
 	}
 
-	hash := fmt.Sprintf("%s", h.Hash())
-	return hash, nil
+	return h.Hash().String(), nil
 }
 
 // Remote returns git remote url
